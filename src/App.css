@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+}
+
+.App-button {
+  position: relative;
+  z-index: 100;
+  margin: 20px;
+  padding: 12px 24px;
+  background-color: blueviolet;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.App-button:hover {
+  background-color: darkslateblue;
+}
