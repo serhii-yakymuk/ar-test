@@ -1,16 +1,28 @@
 import React, { useEffect } from 'react';
+import { Scene, Camera, WebGLRenderer, Group, Color, AnimationMixer, AnimationClip, Clock, HemisphereLight, PlaneBufferGeometry, MeshBasicMaterial, Mesh } from 'three';
+/* import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'; */
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+
 
 function AR() {
   useEffect(() => {
+    // let fishMesh;
+    let robotGltf;
+    let mixer;
+    let deltaTime = 0;
     let isMounted = true;
-    const { THREE, THREEx } = window;
-    const scene = new THREE.Scene();
-    const camera = new THREE.Camera();
-    const renderer = new THREE.WebGLRenderer({
+    const { THREEx } = window;
+    const clock = new Clock();
+    const scene = new Scene();
+    const camera = new Camera();
+    const renderer = new WebGLRenderer({
       antialias: true,
       alpha: true
     });
-    const ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+    const light = new HemisphereLight(0xffffbb, 0x080820, 12);
+    // const light = new AmbientLight(0x404040, 15);
     const arToolkitSource = new THREEx.ArToolkitSource({
       sourceType: 'webcam'
     });
@@ -18,7 +30,7 @@ function AR() {
       cameraParametersUrl: `${process.env.PUBLIC_URL}/data/camera_para.dat`,
       detectionMode: 'mono'
     });
-    const markerRoot = new THREE.Group();
+    const markerRoot = new Group();
 
     const onResize = () => {
       arToolkitSource.onResizeElement();
@@ -29,9 +41,9 @@ function AR() {
     }
 
     const initialize = () => {
-      scene.add(ambientLight);
+      scene.add(light);
       scene.add(camera);
-      renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+      renderer.setClearColor(new Color('lightgrey'), 0)
       renderer.setSize(640, 480);
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.style.top = '0px';
@@ -51,21 +63,69 @@ function AR() {
       const markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
         type: 'pattern', patternUrl: `${process.env.PUBLIC_URL}/data/hiro.patt`,
       })
-    
-      const cubeGeometry = new THREE.CubeGeometry(1, 1, 1);
-      const cubeMaterial = new THREE.MeshNormalMaterial({
-        transparent: true,
-        opacity: 0.5,
-        side: THREE.DoubleSide
-      });
+
+      const geometry1 = new PlaneBufferGeometry(1,1, 4,4);
+      const material1 = new MeshBasicMaterial({ color: 0x0033aa, opacity: 0.3 });
+      const mesh1 = new Mesh(geometry1, material1);
+
+      mesh1.rotation.x = -Math.PI/2;
+      markerRoot.add(mesh1);
       
-      const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cubeMesh.position.y = 0.5;
+      function onProgress(xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      }
+
+      function onError(error) {
+        console.log('An error happened:', error);
+      }
+
       
-      markerRoot.add(cubeMesh);
+ 
+      /* new MTLLoader()
+        .setPath('models/')
+        .load('fish-2.mtl',materials => {
+          materials.preload();
+          new OBJLoader()
+            .setMaterials(materials)
+            .setPath('models/')
+            .load( 'fish-2.obj', group => {
+              fishMesh = group.children[0];
+
+              fishMesh.material.side = DoubleSide;
+              fishMesh.position.y = 0.25;
+              fishMesh.position.z = 0;
+              fishMesh.scale.set(0.2,0.2,0.2);
+              markerRoot.add(fishMesh);
+
+              console.log(markerRoot);
+            });
+        }); */
+
+      new GLTFLoader()
+        .load(`${process.env.PUBLIC_URL}/models/robot/multiclip.gltf`, gltf => {
+          robotGltf = gltf;
+
+          robotGltf.scene.scale.set(0.005,0.005,0.005);
+          markerRoot.add(robotGltf.scene);
+
+          mixer = new AnimationMixer(robotGltf.scene);
+
+          const clip = AnimationClip.findByName(robotGltf.animations, 'dance');
+          const action = mixer.clipAction(clip);
+
+          action.play();
+
+        }, onProgress, onError);
     }
 
     const update = () => {
+      if (markerRoot.visible) {
+        robotGltf.scene.rotation.y += 0.01;
+
+        if (mixer) {
+          mixer.update(deltaTime);
+        }
+      }
       if (arToolkitSource.ready !== false) {
         arToolkitContext.update(arToolkitSource.domElement);
       }
@@ -79,6 +139,7 @@ function AR() {
     const animate = () => {
       if (isMounted) {
         requestAnimationFrame(animate);
+        deltaTime = clock.getDelta();
         update();
         render();
       }
@@ -92,6 +153,7 @@ function AR() {
       arToolkitSource.domElement.srcObject.getTracks()
         .forEach(track => track.stop());
       document.body.removeChild(arToolkitSource.domElement);
+      document.body.removeChild(renderer.domElement);
     };
   }, []);
 
