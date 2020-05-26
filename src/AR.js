@@ -48,8 +48,7 @@ function AR() {
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.style.top = '0px';
       renderer.domElement.style.left = '0px';
-      console.log(renderer.domElement);
-      document.body.appendChild(renderer.domElement);
+      document.getElementById('ar-container').appendChild(renderer.domElement);
     
       arToolkitSource.init(onResize);
 
@@ -152,8 +151,8 @@ function AR() {
       isMounted = false;
       arToolkitSource.domElement.srcObject.getTracks()
         .forEach(track => track.stop());
-      document.body.removeChild(arToolkitSource.domElement);
-      document.body.removeChild(renderer.domElement);
+      document.getElementById('ar-container').removeChild(arToolkitSource.domElement);
+      document.getElementById('ar-container').removeChild(renderer.domElement);
     };
   }, []);
 

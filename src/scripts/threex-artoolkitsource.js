@@ -75,7 +75,7 @@ ARjs.Source.prototype.init = function(onReady, onError){
 
 	return this
         function onSourceReady(){
-		document.body.appendChild(_this.domElement);
+		document.getElementById('ar-container').appendChild(_this.domElement);
 
 		_this.ready = true
 
