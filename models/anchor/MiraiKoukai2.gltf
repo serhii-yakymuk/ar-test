@@ -1464,7 +1464,7 @@
 		"byteLength":1780
 	}],
 	"images":[{
-		"uri":"Textures/AnchorСolor_2K.jpg"
+		"uri":"Textures/AnchorColor_2K.jpg"
 	},
 	{
 		"uri":"Textures/BaseColor_2K.jpg"
@@ -1473,7 +1473,7 @@
 		"uri":"Textures/BaseNormal_2K.jpg"
 	},
 	{
-		"uri":"Textures/FloorСolor_2K.jpg"
+		"uri":"Textures/FloorColor_2K.jpg"
 	},
 	{
 		"uri":"Textures/FloorNormal_2K.jpg"
