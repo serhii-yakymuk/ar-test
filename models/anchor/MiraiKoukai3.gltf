@@ -1465,7 +1465,7 @@
 			0.8,
 			0.8,
 			1.0],
-			"metallicFactor":1.0,
+			"metallicFactor":0.9,
 			"roughnessFactor":0.0
 		},
 		"emissiveFactor":[0.0,
