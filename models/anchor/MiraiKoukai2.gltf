@@ -1464,19 +1464,19 @@
 		"byteLength":1780
 	}],
 	"images":[{
-		"uri":"Textures/AnchorColor_2K.jpg"
+		"uri":"Textures/AnchorColor_1K.jpg"
 	},
 	{
-		"uri":"Textures/BaseColor_2K.jpg"
+		"uri":"Textures/BaseColor_1K.jpg"
 	},
 	{
-		"uri":"Textures/BaseNormal_2K.jpg"
+		"uri":"Textures/BaseNormal_1K.jpg"
 	},
 	{
-		"uri":"Textures/FloorColor_2K.jpg"
+		"uri":"Textures/FloorColor_1K.jpg"
 	},
 	{
-		"uri":"Textures/FloorNormal_2K.jpg"
+		"uri":"Textures/FloorNormal_1K.jpg"
 	}],
 	"samplers":[{
 		"magFilter":9729,
@@ -1517,8 +1517,8 @@
 			1.0,
 			1.0,
 			1.0],
-			"metallicFactor":1.0,
-			"roughnessFactor":0.75
+			"metallicFactor":0.3,
+			"roughnessFactor":0.8
 		},
 		"emissiveFactor":[0.0,
 		0.0,
@@ -1536,8 +1536,8 @@
 			1.0,
 			1.0,
 			1.0],
-			"metallicFactor":0.75,
-			"roughnessFactor":0.25
+			"metallicFactor":0,
+			"roughnessFactor":0
 		},
 		"normalTexture":{
 			"index":2,
@@ -1559,8 +1559,8 @@
 			1.0,
 			1.0,
 			1.0],
-			"metallicFactor":0.5,
-			"roughnessFactor":0.75
+			"metallicFactor":0,
+			"roughnessFactor":0
 		},
 		"normalTexture":{
 			"index":4,
