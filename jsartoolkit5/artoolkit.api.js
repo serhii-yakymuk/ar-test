@@ -25,7 +25,6 @@
 		@param {ARCameraParam | string} camera The ARCameraParam to use for image processing. If this is a string, the ARController treats it as an URL and tries to load it as a ARCameraParam definition file, calling ARController#onload on success. 
 	*/
 	var ARController = function(width, height, camera) {
-		console.log(width, height, camera);
 		var id;
 		var w = width, h = height;
 
