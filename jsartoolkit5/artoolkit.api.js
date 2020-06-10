@@ -1013,6 +1013,7 @@
 		if( (image.nodeName === 'IMG' && image.width > image.height ) ||
 			(image.nodeName === 'VIDEO' && image.videoWidth > image.videoHeight) ){
 			// if landscape
+			console.log(this.canvas.width, this.canvas.height, image.videoWidth, image.videoHeight, 'landscape');
 			this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height); // draw video
 		}else{
 			// if portrait
@@ -1022,6 +1023,8 @@
 			var scaledWidth = this.canvas.height*scale;
 			var marginLeft = ( this.canvas.width - scaledWidth)/2;
 			this.ctx.drawImage(image, marginLeft, 0, scaledWidth, scaledHeight); // draw video
+
+			console.log(marginLeft, scaledWidth, scaledHeight, image.videoWidth, image.videoHeight, 'portrait');
 		}
 
 		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
